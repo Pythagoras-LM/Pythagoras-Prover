@@ -1,8 +1,7 @@
 <div align="center">
-    <h1> <a href="https://pythagoras-prover.github.io/"> <strong>Pythagoras-Prover: Advancing Efficient Formal Proving via Augmented Lean Formalisation</strong></a></h1>
+    <h1> <a href="https://pythagoras-lm.github.io/"> <strong>Pythagoras-Prover: Advancing Efficient Formal Proving via Augmented Lean Formalisation</strong></a></h1>
 </div>
 
-# Pythagoras-Prover
 ## 1. Introduction
 
 We introduce Pythagoras-Prover, an open-source family of compute-efficient language models for automated formal proof generation in Lean 4. Our approach combines three key innovations: (1) Failure-mode-conditioned data synthesis: a rubric-guided distillation pipeline that re-targets each rejected seed against the specific Lean type-checker error responsible for its rejection, yielding a verified corpus partitioned into easy, medium and hard difficulty tiers and a 30% relative gain in autoformalisation success; (2) Curriculum-based parameter-efficient training: LoRA-only supervised fine-tuning over a three-stage difficulty curriculum under an 8K context with a dynamic proof-reasoning filter, followed by reinforcement learning with a binary Lean-compilation reward; (3) Augmented Lean Formalisation (ALF): a structured mutation scheme that expands each statement into roughly two million formal variants without per-instance Lean compilation, reused in a self-distillation stage.
@@ -53,20 +52,19 @@ The figure above shows the state-of-the-art performance of Pythagoras-Prover. Th
     </tbody>
   </table>
   <!-- table caption -->
-  <caption align="bottom"><strong>Table 1</strong>: <em>PutnamBench leaderboard (problems solved out of 672). Pythagoras-Prover-32B secures the top rank with 93 problems at Pass@2048, surpassing the previous best (Goedel-Prover-V2-32B, 86 at Pass@184 with self-correction) by 7 problems and roughly doubling DeepSeek-Prover-V2-671B's pass@1024 result, despite being roughly 20× smaller. We omit Seed-Prover (331 solved; closed-source with undisclosed test-time compute) from the ranked rows.</em></caption>
+  <caption align="bottom"><strong>Table 1</strong>: <em>PutnamBench leaderboard (problems solved out of 657). Pythagoras-Prover-32B takes the top rank, solving 93 problems at Pass@2048 — 7 more than the previous best (Goedel-Prover-V2-32B, 86 at Pass@184 in self-correction mode) and nearly double DeepSeek-Prover-V2-671B's 47 at Pass@1024, despite being roughly 20× smaller. Seed-Prover (331 solved) is omitted from the ranked rows as it is closed-source with undisclosed test-time compute.</em></caption>
 </div>
 
 
 ## 3. Model & Dataset Download
-We release Pythagoras-Prover in two model sizes: 4B and 32B parameters. Pythagoras-Prover is trained based on Qwen3 model series. We release our Pythagoras-Prover models, datasets and our new benchmark for future research. 
+We will be releasing Pythagoras-Prover in two sizes, 4B and 32B parameters, alongside Pythagoras-Prover-Diffusion-4B. For each model we provide both the post-SFT and final checkpoints. Pythagoras-Prover is built on the Qwen3 model series. To support future research, we are open-sourcing (gradually) our models, datasets, and a new benchmark.
 
 <div align="center">
   
 | Model | Download |
 | -------- | -------- |
 |    Pythagoras-Prover-32B    |   Coming Soon   |
-|    Pythagoras-Prover-4B    |   [🤗Download](https://huggingface.co/Pythagoras-LM/
-Pythagoras-Prover-4B)    |
+|    Pythagoras-Prover-4B    |   [🤗Download](https://huggingface.co/Pythagoras-LM/Pythagoras-Prover-4B)    |
 |    Pythagoras-Prover-Diffusion-4B    |   Coming Soon   |
 
 </div>
@@ -80,7 +78,46 @@ Pythagoras-Prover-4B)    |
 |    Pythagoras-Prover-Distill-32B    |   Coming Soon    |
 </div>
 
+### TODOs
+We will be releasing the checkpoints, datasets, and benchmarks gradually to support future research and replication.
+- [🚀] Releasing 4B models 
+- [🚀] Releasing 32B models 
+- [🚀] Releasing Diffusion-4B model
+- [🚀] Releasing Pythagoras-Dataset
+- [🚀] Releasing MiniF2F-ALF
+- [🚀] Releasing Source Code for Dataset
+
+## Environment Setup
+We follow <a href="https://github.com/deepseek-ai/DeepSeek-Prover-V1.5">DeepSeek-Prover-V1.5</a>, which uses Lean 4 (version 4.9) and the corresponding Mathlib. We have simplified the setup for easier installation.
+
+### Installation
+1. Install Lean and Mathlib:
+```
+curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y
+source $HOME/.elan/env
+
+cd /dev/shm
+git clone --branch deepseek https://github.com/xinhjBrant/mathlib4.git
+cd mathlib4
+git checkout 2f65ba7
+lake build
+echo '{ "cmd" : "def f := 2" }' | lake exe repl
+```
+
+2. Install the required packages:
+ ```
+ pip install uv 
+uv venv pythagoraslm --python 3.12 && source pythagoraslm/bin/activate && uv pip install --upgrade pip
+uv pip install --upgrade vllm
+uv pip install peft datasets accelerate
+uv pip install setuptools && uv pip install flash-attn --no-build-isolation
+ ```
+
+> **Note:** The evaluation code will be released very soon.
+
+
 ## 4. Quick Start
+For model inference., <a href="https://github.com/huggingface/transformers" target="_blank" rel="noopener">Huggingface's Transformers</a> can directly be used
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -134,3 +171,6 @@ print(time.time() - start)
 
 # 7. Cite
 COMING SOON
+
+# 9. Contact 
+If you have any question, please raise an issue or contact us at j.ong25@imperial.ac.uk
