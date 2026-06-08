@@ -173,4 +173,4 @@ print(time.time() - start)
 COMING SOON
 
 # 9. Contact 
-If you have any question, please raise an issue or contact us at j.ong25@imperial.ac.uk
+If you have any question, please raise an issue or contact j.ong25@imperial.ac.uk
