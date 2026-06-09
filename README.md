@@ -20,7 +20,7 @@
   <a href="#3-benchmark-performance">Benchmark Performance</a> |
   <a href="#4-model--dataset-downloads">Model &amp; Dataset Downloads</a> |
   <a href="#5-quick-start">Quick Start</a> |
-  <a href="citation">Citation</a>
+  <a href="#citation">Citation</a>
 </p>
 
 # Pythagoras-Prover: Advancing Efficient Formal Proving via Augmented Lean Formalisation
