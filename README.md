@@ -1,28 +1,110 @@
 <div align="center">
-    <h1> <a href="https://pythagoras-lm.github.io/"> <strong>Pythagoras-Prover: Advancing Efficient Formal Proving via Augmented Lean Formalisation</strong></a></h1>
+  <img src="assets/pythagoras-without-background.png" width="120" alt="Pythagoras-Prover logo"><br>
+  <h1>Pythagoras-Prover</h1>
 </div>
+
+<div align="center">
+
+[![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/XXXX.XXXXX)
+[![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Pythagoras--LM-ffc107?color=ffc107)](https://huggingface.co/Pythagoras-LM)
+[![Code](https://img.shields.io/badge/GitHub-Pythagoras--Prover-181717?logo=github&logoColor=white)](https://github.com/Pythagoras-LM/Pythagoras-Prover)
+[![Stars](https://img.shields.io/github/stars/Pythagoras-LM/Pythagoras-Prover?style=social)](https://github.com/Pythagoras-LM/Pythagoras-Prover)
+
+</div>
+
+<p align="center"><b>Paper Link &nbsp;|&nbsp; <a href="https://arxiv.org/abs/XXXX.XXXXX">arXiv</a></b></p>
+
+<p align="center">
+  <a href="#1-introduction">Introduction</a> |
+  <a href="#2-model-summary">Model Summary</a> |
+  <a href="#3-minif2f-alf-benchmark">MiniF2F-ALF</a> |
+  <a href="#4-evaluation">Evaluation</a> |
+  <a href="#5-models--dataset-downloads">Downloads</a> |
+  <a href="#6-quick-start">Quick Start</a> |
+  <a href="#7-license">License</a> |
+  <a href="#8-citation--contact">Citation &amp; Contact</a>
+</p>
+
+# Pythagoras-Prover: Advancing Efficient Formal Proving via Augmented Lean Formalisation
 
 ## 1. Introduction
 
-We introduce Pythagoras-Prover, an open-source family of compute-efficient language models for automated formal proof generation in Lean 4. Our approach combines three key innovations: (1) Failure-mode-conditioned data synthesis: a rubric-guided distillation pipeline that re-targets each rejected seed against the specific Lean type-checker error responsible for its rejection, yielding a verified corpus partitioned into easy, medium and hard difficulty tiers and a 30% relative gain in autoformalisation success; (2) Curriculum-based parameter-efficient training: LoRA-only supervised fine-tuning over a three-stage difficulty curriculum under an 8K context with a dynamic proof-reasoning filter, followed by reinforcement learning with a binary Lean-compilation reward; (3) Augmented Lean Formalisation (ALF): a structured mutation scheme that expands each statement into roughly two million formal variants without per-instance Lean compilation, reused in a self-distillation stage.
+We introduce **Pythagoras-Prover**, a compute-efficient family of open-source large language models for formal theorem proving in Lean 4. The family comprises two autoregressive provers at 4B and 32B parameters, together with **Pythagoras-Prover-Diffusion**, the first diffusion-based theorem prover, which iteratively refines Lean proofs at inference time. All three models are artefacts of a single methodological approach: a scalable, Lean-verified synthetic data pipeline. At its centre is **Augmented Lean Formalisation** (ALF), a structured mutation scheme that expands a verified seed corpus into formal variants without per-instance Lean compilation, then re-uses them as a self-distillation signal during training. This design lets careful data construction stand in for raw scale, closing much of the gap between small open provers and their largest counterparts — without relying on inference-time self-correction.
 
-Our small model, Pythagoras-Prover-4B, reaches 86.07% on MiniF2F-Test at Pass@32, surpassing the prior state-of-the-art DeepSeek-Prover-V2-671B (82.4%) while being roughly 167× smaller in parameter count, and scales to 89.75% at Pass@2048 under independent restart sampling. On the MiniF2F-ALF decontamination split, Pythagoras-Prover-4B reaches parity with Goedel-Prover-V2-32B at 8× fewer parameters. To our knowledge it is the smallest open-source model to surpass the 671B-parameter state of the art on MiniF2F-Test at Pass@32.
+<div align="center">
+  <img src="assets/prover_fig1_hi.png" alt="Pythagoras-Prover benchmark overview" width="90%">
+</div>
 
-## 2. Benchmark Performance
+## 2. Model Summary
 
-<figure>
-  <div class="fig-row">
-    <div class="panel panel-1" style="width:100%;">
-      <img src="https://github.com/Pythagoras-Prover-LM/Pythagoras-Prover/blob/main/assets/prover_fig1_hi.png" alt="…">
-    </div>
-  </div>
-  <figcaption>
-  <strong>Figure 1</strong>: <em>Pass@32 performance on MiniF2F, PutnamBench, and our new MiniF2F-ALF, by mutating MiniF2F-Statement through our proposed ALF method.</em>
-  </figcaption>
-</figure>
+---
+
+**A Lean-Verified Synthetic Data Pipeline**
+
+- Natural-language problems from general-math and competition sources are autoformalised into Lean and gated on the type-checker using predominantly sub-30B open models, with an auto-informalisation and alignment step discarding faithful-but-wrong formalisations to yield a verified seed corpus partitioned into easy, medium, and hard tiers.
+- A rubric-guided distillation stage re-prompts on each rejected instance to target the specific Lean type-checker error responsible for its failure, lifting autoformalisation success and roughly doubling the verified training set.
+
+---
+
+**Model Training**
+
+- LoRA-only supervised fine-tuning of Qwen3-4B and Qwen3-32B under an 8K context, paired with a dynamic proof-reasoning filter and a difficulty-ordered easy→medium→hard curriculum, followed by reinforcement learning with a Lean-compilation reward and a final continued-SFT stage on the ALF corpus.
+
+---
+
+**Augmented Lean Formalisation**
+- ALF emits one structured variant per category — simplification, generalisation, lemma proposal, proof-step decomposition, and reformulation — for every seed statement, replacing per-instance Lean verification with a cheap statement-alignment check and expanding the seed corpus into roughly 2M formal variants.
+- The post-RL prover proves the mutations, and these self-distilled proofs form a corpus that trains both the autoregressive and diffusion provers from a single recipe.
+
+---
+
+**The Smallest Efficient Open-Source Lean Theorem Prover**
+
+- We train Pythagoras-Prover-4B, one of the smallest and most compute-efficient open-source Lean theorem provers to date, reaching 86.07% on MiniF2F-Test at Pass@32 and surpassing the prior state of the art at a fraction of its parameter count.
+- Pythagoras-Prover-Diffusion adapts a block-diffusion formulation with a tactic-based masking objective aligned to the discrete reasoning steps of Lean — to our knowledge the first demonstration that a diffusion language model can verifiably solve Lean theorems at non-trivial rates.
+
+---
+
+The resulting models set a new bar for compute-efficient formal proving. **Pythagoras-Prover-32B** achieves state-of-the-art performance among open-source provers, reaching **93.03%** on MiniF2F-Test and solving **93 of 672** problems on PutnamBench, while **Pythagoras-Prover-4B** outperforms DeepSeek-Prover-V2-671B on MiniF2F-Test despite being roughly **167× smaller** — with no self-correction or test-time reinforcement learning. We additionally release **MiniF2F-ALF**, an ALF-mutated companion benchmark on which every evaluated prover degrades.
+
+## 3. Benchmark Performance
+
+We evaluate Pythagoras-Prover on three Lean 4 benchmarks — MiniF2F-Test, PutnamBench, and the MiniF2F-ALF benchmark we introduce — under a single unified protocol (Lean 4.9.0-rc1, a 30,000-token generation limit, and a verbatim-statement pass criterion). Across all three, Pythagoras-Prover matches or exceeds open-source provers an order of magnitude larger, and does so **without** inference-time self-correction or test-time reinforcement learning.
 
 
-The figure above shows the state-of-the-art performance of Pythagoras-Prover. The results is reported all with Pass@32 unless specified. We observe that (1) Across all three datasets, Pythagoras-Prover-4B anmd 32B outperforms prior models, including Goedel-Prover-v2, DeepSeek-Prover-V2-671B and Kimina-Prover; (2) on miniF2F AND MiniF2F-ALF, our 4B model matches the performance of DeepSeek-Prover-V2-671B while being 167 times smaller in model size.
+<div align="center">
+  <table style="margin: 0 auto;">
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th>#Params</th>
+        <th>Pass@32</th>
+        <th>Pass@1024</th>
+        <th>Best (N)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Goedel-Prover-SFT</td><td>7B</td><td>57.6</td><td>–</td><td>62.7 (3200)</td></tr>
+      <tr><td>STP</td><td>7B</td><td>–</td><td>–</td><td>67.6 (25600)</td></tr>
+      <tr><td>Kimina-Prover-Preview-72B</td><td>72B</td><td>68.85</td><td>–</td><td>80.74 (8192)</td></tr>
+      <tr><td>DeepSeek-Prover-V2-7B</td><td>7B</td><td>75.6</td><td>–</td><td>82.0 (8192)</td></tr>
+      <tr><td>DeepSeek-Prover-V2-671B</td><td>671B</td><td>82.4</td><td>–</td><td>88.9 (8192)</td></tr>
+      <tr><td>Kimina-Prover-8B-Distill</td><td>8B</td><td>77.86</td><td>–</td><td>–</td></tr>
+      <tr><td>Kimina-Prover-70B</td><td>70B</td><td>84.0</td><td>87.7</td><td>92.2 (TTRL)</td></tr>
+      <tr><td>Goedel-Prover-V2-8B</td><td>8B</td><td>84.6</td><td>87.9</td><td>90.2 (8192)</td></tr>
+      <tr><td>&nbsp;&nbsp;+ Self-Correction</td><td>8B</td><td>86.7</td><td>89.3</td><td>–</td></tr>
+      <tr><td>Goedel-Prover-V2-32B</td><td>32B</td><td>88.1</td><td>91.8</td><td>92.2 (8192)</td></tr>
+      <tr><td>&nbsp;&nbsp;+ Self-Correction</td><td>32B</td><td>90.4</td><td>92.6</td><td>–</td></tr>
+      <tr><td><strong>Pythagoras-Prover-4B</strong></td><td>4B</td><td><strong>86.07</strong></td><td><strong>88.11</strong></td><td><strong>89.75 (2048)</strong></td></tr>
+      <tr><td><strong>Pythagoras-Prover-32B</strong></td><td>32B</td><td><strong>89.75</strong></td><td><strong>92.62</strong></td><td><strong>93.03 (2048)</strong></td></tr>
+    </tbody>
+  </table>
+  <!-- table caption -->
+  <caption align="bottom"><strong>Table 1</strong>: <em>Pythagoras-Prover-4B exceeds DeepSeek-Prover-V2-671B's pass@8192 result (88.9%) at pass@2048 — a quarter of the budget and ~167× fewer parameters. Pythagoras-Prover-32B sets the strongest reported MiniF2F-Test pass rate without self-correction or test-time RL.</em></caption>
+</div>
+
+
+<br>
 
 <div align="center">
   <table style="margin: 0 auto;">
@@ -52,11 +134,33 @@ The figure above shows the state-of-the-art performance of Pythagoras-Prover. Th
     </tbody>
   </table>
   <!-- table caption -->
-  <caption align="bottom"><strong>Table 1</strong>: <em>PutnamBench leaderboard (problems solved out of 657). Pythagoras-Prover-32B takes the top rank, solving 93 problems at Pass@2048 — 7 more than the previous best (Goedel-Prover-V2-32B, 86 at Pass@184 in self-correction mode) and nearly double DeepSeek-Prover-V2-671B's 47 at Pass@1024, despite being roughly 20× smaller. Seed-Prover (331 solved) is omitted from the ranked rows as it is closed-source with undisclosed test-time compute.</em></caption>
+  <caption align="bottom"><strong>Table 2</strong>: <em>PutnamBench leaderboard (problems solved out of 657). Pythagoras-Prover-32B takes the top rank, solving 93 problems at Pass@2048 — 7 more than the previous best (Goedel-Prover-V2-32B, 86 at Pass@184 in self-correction mode) and nearly double DeepSeek-Prover-V2-671B's 47 at Pass@1024, despite being roughly 20× smaller. Seed-Prover (331 solved) is omitted from the ranked rows as it is closed-source with undisclosed test-time compute.</em></caption>
+</div>
+
+<br>
+
+<div align="center">
+  <table style="margin: 0 auto;">
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Pass@32</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>DeepSeek-Prover-V2-671B</td><td>79.71</td></tr>
+      <tr><td>Goedel-Prover-V2-8B</td><td>82.58</td></tr>
+      <tr><td>Goedel-Prover-V2-32B</td><td>83.61</td></tr>
+      <tr><td><strong>Pythagoras-Prover-4B</strong></td><td><strong>83.19</strong></td></tr>
+      <tr><td><strong>Pythagoras-Prover-32B</strong></td><td><strong>85.04</strong></td></tr>
+    </tbody>
+  </table>
+  <!-- table caption -->
+  <caption align="bottom"><strong>Table 3</strong>: <em>Performance of current state-of-the-art provers on MiniF2F-ALF (Pass@32, %). As MiniF2F-ALF is introduced in this work, all results are evaluated by us under a unified setup.</em></caption>
 </div>
 
 
-## 3. Model & Dataset Download
+## 4. Model & Dataset Downloads
 We will be releasing Pythagoras-Prover in two sizes, 4B and 32B parameters, alongside Pythagoras-Prover-Diffusion-4B. For each model we provide both the post-SFT and final checkpoints. Pythagoras-Prover is built on the Qwen3 model series. To support future research, we are open-sourcing (gradually) our models, datasets, and a new benchmark.
 
 <div align="center">
@@ -116,7 +220,7 @@ uv pip install setuptools && uv pip install flash-attn --no-build-isolation
 > **Note:** The evaluation code will be released very soon.
 
 
-## 4. Quick Start
+## 5. Quick Start
 For model inference., <a href="https://github.com/huggingface/transformers" target="_blank" rel="noopener">Huggingface's Transformers</a> can directly be used
 
 ```python
@@ -169,8 +273,17 @@ print(tokenizer.batch_decode(outputs))
 print(time.time() - start)
 ```
 
-# 7. Cite
-COMING SOON
+# Cite
+If you find Pythagoras-Prover useful, please cite:
 
-# 9. Contact 
-If you have any question, please raise an issue or contact j.ong25@imperial.ac.uk
+```bibtex
+@article{leang2026pythagoras,
+  title   = {Pythagoras-Prover: Advancing Efficient Formal Proving via Augmented Lean Formalisation},
+  author  = {Leang, Joshua Ong Jun and Zhao, Zheng and Stoian, Mihaela C{\u{a}}t{\u{a}}lina
+             and Xu, Qiyuan and Li, Haonan and Li, Wenda and Cohen, Shay B. and Giunchiglia, Eleonora},
+  year    = {2026}
+}
+```
+
+# Contact 
+If you have any question, please open an issue on this repository or contact j.ong25@imperial.ac.uk
