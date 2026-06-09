@@ -17,12 +17,10 @@
 <p align="center">
   <a href="#1-introduction">Introduction</a> |
   <a href="#2-model-summary">Model Summary</a> |
-  <a href="#3-minif2f-alf-benchmark">MiniF2F-ALF</a> |
-  <a href="#4-evaluation">Evaluation</a> |
-  <a href="#5-models--dataset-downloads">Downloads</a> |
-  <a href="#6-quick-start">Quick Start</a> |
-  <a href="#7-license">License</a> |
-  <a href="#8-citation--contact">Citation &amp; Contact</a>
+  <a href="#3-benchmark-performance">Benchmark Performance</a> |
+  <a href="#4-model--dataset-downloads">Model &amp; Dataset Downloads</a> |
+  <a href="#5-quick-start">Quick Start</a> |
+  <a href="citation">Citation</a>
 </p>
 
 # Pythagoras-Prover: Advancing Efficient Formal Proving via Augmented Lean Formalisation
