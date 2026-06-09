@@ -271,7 +271,7 @@ print(tokenizer.batch_decode(outputs))
 print(time.time() - start)
 ```
 
-# Cite
+# Citation
 If you find Pythagoras-Prover useful, please cite:
 
 ```bibtex
