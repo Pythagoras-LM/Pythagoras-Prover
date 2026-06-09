@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/pythagoras-without-background.png" width="120" alt="Pythagoras-Prover logo"><br>
+  <img src="assets/pythagoras-without-background.png" width="250" alt="Pythagoras-Prover logo"><br>
   <h1>Pythagoras-Prover</h1>
 </div>
 
