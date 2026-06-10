@@ -30,7 +30,7 @@
 We introduce **Pythagoras-Prover**, a compute-efficient family of open-source large language models for formal theorem proving in Lean 4. The family comprises two autoregressive provers at 4B and 32B parameters, together with **Pythagoras-Prover-Diffusion**, the first diffusion-based theorem prover, which iteratively refines Lean proofs at inference time. All three models are artefacts of a single methodological approach: a scalable, Lean-verified synthetic data pipeline. At its centre is **Augmented Lean Formalisation** (ALF), a structured mutation scheme that expands a verified seed corpus into formal variants without per-instance Lean compilation, then re-uses them as a self-distillation signal during training. This design lets careful data construction stand in for raw scale, closing much of the gap between small open provers and their largest counterparts — without relying on inference-time self-correction.
 
 <div align="center">
-  <img src="assets/prover_fig1_hi2.png" alt="Pythagoras-Prover benchmark overview" width="90%">
+  <img src="assets/prover_fig1_v2_hi.png" alt="Pythagoras-Prover benchmark overview" width="90%">
 </div>
 
 ## 2. Model Summary
