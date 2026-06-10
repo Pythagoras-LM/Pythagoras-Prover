@@ -215,7 +215,7 @@ uv pip install peft datasets accelerate
 uv pip install setuptools && uv pip install flash-attn --no-build-isolation
  ```
 
-> **Note:** The evaluation code will be released very soon.
+> **Note:** The complete evaluation code will be released very soon.
 
 
 ## 5. Quick Start
@@ -269,6 +269,11 @@ start = time.time()
 outputs = model.generate(inputs, max_new_tokens=8192)
 print(tokenizer.batch_decode(outputs))
 print(time.time() - start)
+```
+
+## 6. Inference and Evaluation
+```
+bash script/run_minif2f_pythagoras_4b.sh
 ```
 
 # Citation
