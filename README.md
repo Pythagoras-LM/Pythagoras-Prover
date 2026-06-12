@@ -182,7 +182,7 @@ We will be releasing Pythagoras-Prover in two sizes, 4B and 32B parameters, alon
 
 ### TODOs
 We will be releasing the checkpoints, datasets, and benchmarks gradually to support future research and replication.
-- [🚀] Releasing 4B models 
+- [✅] Releasing 4B models 
 - [🚀] Releasing 32B models 
 - [🚀] Releasing Diffusion-4B model
 - [🚀] Releasing Pythagoras-Dataset
