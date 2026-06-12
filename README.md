@@ -5,14 +5,14 @@
 
 <div align="center">
 
-[![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/XXXX.XXXXX)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/pdf/2606.12594)
 [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Pythagoras--LM-ffc107?color=ffc107)](https://huggingface.co/Pythagoras-LM)
 [![Code](https://img.shields.io/badge/GitHub-Pythagoras--Prover-181717?logo=github&logoColor=white)](https://github.com/Pythagoras-LM/Pythagoras-Prover)
 [![Stars](https://img.shields.io/github/stars/Pythagoras-LM/Pythagoras-Prover?style=social)](https://github.com/Pythagoras-LM/Pythagoras-Prover)
 
 </div>
 
-<p align="center"><b>Paper Link &nbsp;|&nbsp; <a href="https://arxiv.org/abs/XXXX.XXXXX">arXiv</a></b></p>
+<p align="center"><b>Paper Link &nbsp;|&nbsp; <a href="https://arxiv.org/pdf/2606.12594">arXiv</a></b></p>
 
 <p align="center">
   <a href="#1-introduction">Introduction</a> |
@@ -286,10 +286,11 @@ bash script/verify.sh
 If you find Pythagoras-Prover useful, please cite:
 
 ```bibtex
-@article{leang2026pythagoras,
+@article{leang2026can,
   title   = {Pythagoras-Prover: Advancing Efficient Formal Proving via Augmented Lean Formalisation},
   author  = {Leang, Joshua Ong Jun and Zhao, Zheng and Stoian, Mihaela C{\u{a}}t{\u{a}}lina
              and Xu, Qiyuan and Li, Haonan and Li, Wenda and Cohen, Shay B. and Giunchiglia, Eleonora},
+  journal = {arXiv preprint arXiv:2606.12594},
   year    = {2026}
 }
 ```
