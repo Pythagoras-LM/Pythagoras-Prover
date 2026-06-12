@@ -286,9 +286,9 @@ bash script/verify.sh
 If you find Pythagoras-Prover useful, please cite:
 
 ```bibtex
-@article{leang2026can,
+@article{leang2026pythagoras,
   title   = {Pythagoras-Prover: Advancing Efficient Formal Proving via Augmented Lean Formalisation},
-  author  = {Leang, Joshua Ong Jun and Zhao, Zheng and Stoian, Mihaela C{\u{a}}t{\u{a}}lina
+  author  = {Leang, Joshua Ong Jun and Zhao, Zheng and Stoian, Mihaela C{\"A}
              and Xu, Qiyuan and Li, Haonan and Li, Wenda and Cohen, Shay B. and Giunchiglia, Eleonora},
   journal = {arXiv preprint arXiv:2606.12594},
   year    = {2026}
