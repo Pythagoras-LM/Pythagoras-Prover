@@ -175,7 +175,7 @@ We will be releasing Pythagoras-Prover in two sizes, 4B and 32B parameters, alon
 
 | Dataset | Download |
 | -------- | -------- |
-|   Pythagoras-Prover-SFT    |   Coming Soon    |
+|   Pythagoras-Prover-SFT    |   [🤗Download](https://huggingface.co/datasets/Pythagoras-LM/SFT_Dataset)   |
 |   Pythagoras-Prover-Distill-4B    |   Coming Soon    |
 |    Pythagoras-Prover-Distill-32B    |   Coming Soon    |
 </div>
