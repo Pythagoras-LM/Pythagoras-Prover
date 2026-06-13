@@ -185,7 +185,7 @@ We will be releasing the checkpoints, datasets, and benchmarks gradually to supp
 - [✅] Releasing 4B models 
 - [🚀] Releasing 32B models 
 - [🚀] Releasing Diffusion-4B model
-- [🚀] Releasing Pythagoras-Dataset
+- [✅] Releasing (Partial) Pythagoras-Dataset. Complete data will be released soon.
 - [🚀] Releasing MiniF2F-ALF
 - [🚀] Releasing Source Code for Dataset
 
