@@ -167,7 +167,7 @@ We will be releasing Pythagoras-Prover in two sizes, 4B and 32B parameters, alon
 | -------- | -------- |
 |    Pythagoras-Prover-32B    |   Coming Soon   |
 |    Pythagoras-Prover-4B    |   [🤗Download](https://huggingface.co/Pythagoras-LM/Pythagoras-Prover-4B)    |
-|    Pythagoras-Prover-Diffusion-4B    |   Coming Soon   |
+|    Pythagoras-Prover-Diffusion-4B    |   [🤗Download](https://huggingface.co/Pythagoras-LM/Pythagoras-Prover-Diffusion-4B)   |
 
 </div>
 
@@ -184,7 +184,7 @@ We will be releasing Pythagoras-Prover in two sizes, 4B and 32B parameters, alon
 We will be releasing the checkpoints, datasets, and benchmarks gradually to support future research and replication.
 - [✅] Releasing 4B models 
 - [🚀] Releasing 32B models 
-- [🚀] Releasing Diffusion-4B model
+- [✅] Releasing Diffusion-4B model
 - [✅] Releasing (Partial) Pythagoras-Dataset. Complete data will be released soon.
 - [🚀] Releasing MiniF2F-ALF
 - [🚀] Releasing Source Code for Dataset
